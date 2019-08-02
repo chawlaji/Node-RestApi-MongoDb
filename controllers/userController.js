@@ -7,8 +7,6 @@ module.exports = {
 
     addUser: async (req, res, next) => {
         try {
-            req.body.timeStamp = Date.now();
-            req.body.verified = false;
             const NewUser = new model(req.body);
             await NewUser.save()
                 .then(res => {

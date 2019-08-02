@@ -1,11 +1,17 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const validator = require('validator')
 
-const userSchema = new Schema({
+
+const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        validate(value) {
+            if (!validator.isEmail(value)) {
+                throw new Error('Email is invalid!')
+            }
+        }
     },
     firstName: {
         type: String,
@@ -16,6 +22,11 @@ const userSchema = new Schema({
     },
     dateOfBirth: {
         type: Date,
+        validate(value) {
+            if (value > Date.now()) {
+                throw new Error('invalid input for date of birth')
+            }
+        }
     },
     profilePic: {
         type: String,
@@ -27,22 +38,36 @@ const userSchema = new Schema({
         type: String
     },
     verified: {
-        type: Boolean
+        type: Boolean,
+        default: false
     },
-    timeStamp:{
-        type: Date
+    timeStamp: {
+        type: Date,
+        default: Date.now
     },
-    username:{
+    username: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        validate(value) {
+            if (validator.isEmpty(value)) {
+                throw new Error('Please enter your username!')
+            }
+        }
     },
-    password:  {
-        type:String,
-       required: true,
+    password: {
+        type: String,
+        required: true,
+        trim: true,
+        minlength: 7,
+        validate(value) {
+            if (validator.isEmpty(value)) {
+                throw new Error('Please enter your password!')
+            }
+        }
     },
 
 
 });
 
-module.exports = mongoose.model('User',userSchema);
+module.exports = mongoose.model('User', userSchema);
