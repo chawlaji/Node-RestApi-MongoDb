@@ -10,7 +10,7 @@ app.use(morgan('combined'))
 app.use(bodyParser.json());
 
 
-app.use( '/', userRouter);
+app.use( '/user', userRouter);
 app.listen(port, ()=>{
     console.log("server started");
     
