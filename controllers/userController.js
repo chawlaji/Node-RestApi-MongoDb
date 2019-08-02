@@ -15,7 +15,7 @@ module.exports = {
                     }
                 })
                 .catch(err => {
-                    res.status(208).send({ message: 'unable to save user', error: err.errmsg });
+                    res.status(208).send({ message: 'unable to save user', error: err });
                 });
         } catch (error) {
             res.status(500).send(error);
