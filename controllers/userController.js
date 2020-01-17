@@ -1,28 +1,37 @@
 const express = require('express');
 const router = express.Router();
 const model = require('../models/userModel');
+const encrypt = require('../utility/encryption').encrypt;
 // never use 400* as unable to handle in android
 
 module.exports = {
 
-    addUser: async (req, res, next) => {
+    addUser: async  (req, res, next) => {
         try {
-            const NewUser = new model(req.body);
-            await NewUser.save()
-                .then(res => {
-                    if (res) {
-                        res.status(200).json({ message: 'saved', data: NewUser });
-                    }
-                })
-                .catch(err => {
-                    res.status(208).send({ message: 'unable to save user', error: err });
-                });
+            debugger;
+            let NewUser = new model(req.body);
+            NewUser.password = encrypt(NewUser.password);
+            const result = await NewUser.save()
+
+            if (result) {
+                res.status(200).json({ message: 'saved', data: NewUser });
+            }
+
+            else {
+
+                res.status(208).send({ message: 'unable to save user', error: err });
+
+            }
+
+
+
+
         } catch (error) {
             res.status(500).send(error);
         }
 
     },
-    verifyUser: async (req, res, next) => {
+    updateUser: async (req, res, next) => {
         try {
             const NewUser = await model.updateOne({ username: req.params.username }, { $set: req.body })
                 .catch(err => {
@@ -48,12 +57,12 @@ module.exports = {
             const user = await model.findOne({ username: req.params.username });
             if (user) {
                 res.status(200).send({ message: 'user found', data: user });
-            }else {
-            res.status(208).send({ message: 'user not found' });
+            } else {
+                res.status(208).send({ message: 'user not found' });
             }
         }
         catch (error) {
-              res.send(error);
+            res.send(error);
 
         }
 
@@ -65,10 +74,10 @@ module.exports = {
                 const user = await model.deleteOne({ username: req.params.username });
                 if (user.n == 1) {
                     res.status(200).send({ message: 'user deleted' });
-                } else if(user.n == 0){
+                } else if (user.n == 0) {
                     res.status(400).send({ message: 'user not found' });
                 }
-                
+
             } else {
                 const user = await model.deleteMany({ "verified": false });
                 console.log(user);

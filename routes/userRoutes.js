@@ -5,7 +5,7 @@ const urlUsername= '/:username';
 
 
 router.post('/',userController.addUser);
-router.patch(urlUsername,userController.verifyUser);
+router.patch(urlUsername,userController.updateUser);
 router.get(urlUsername,userController.getUser);
 router.delete(urlUsername,userController.deleteUser); 
 

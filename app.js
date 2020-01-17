@@ -1,9 +1,11 @@
 const express= require('express');
 const app= express();
 const userRouter= require('./routes/userRoutes');
+const fileRouter= require('./routes/fileRoutes');
+const authenticateRoutes= require('./routes/authenticateRoutes');
 const morgan = require('morgan');
 const bodyParser = require('body-parser')
-const port= 3000;
+const port= 7000;
 require('./util/db');
 
 app.use(morgan('combined'))
@@ -17,6 +19,8 @@ app.use((req, res, next) => {
 });
 
 app.use( '/user', userRouter);
+app.use('/file',fileRouter);
+app.use( '/authenticate', authenticateRoutes);
 app.listen(port, ()=>{
     console.log("server started");
     
