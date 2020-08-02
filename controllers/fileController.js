@@ -52,8 +52,8 @@ module.exports = {
           // iterate through each file path and extract them
           filesInfo.forEach(({filePath, destDir}) => {
             // create directory with timestamp to prevent overwrite same directory names
-            extract(filePath, { dir: `${destDir}_${new Date().getTime()}` }, (err) => {
-              if (err) console.error('extraction failed.');
+            extract(filePath, { dir: `${destDir}_${new Date().getTime()}` }, (error) => {
+              if (error) console.error('extraction failed.');
             });
           });
         });

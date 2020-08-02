@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt-nodejs');
 const salt = bcrypt.genSaltSync(10);
 
 
-encryptLoc = (text) => {
+let encryptLoc = (text) => {
     let hash = bcrypt.hashSync(text, salt);
     return hash;
 }

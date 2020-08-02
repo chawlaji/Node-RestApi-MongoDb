@@ -6,7 +6,7 @@ const authenticateRoutes= require('./routes/authenticateRoutes');
 const morgan = require('morgan');
 const bodyParser = require('body-parser')
 const port= 7000;
-require('./util/db');
+require('./util/db-Atlas');
 
 app.use(morgan('combined'))
 app.use(bodyParser.json());
